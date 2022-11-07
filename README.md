@@ -54,6 +54,8 @@ Next we check the setup:
     sudo snap connect ubuntu-frame:login-session-control
     Checking: shell-app option (needed for frame-it.shell and to run a login shell)
     . OK . : shell-app is set (to 'mir-kiosk-kodi') and can be found
+    Checking: osk option
+    . OK . : "osk" is unset
 
 From this we see a WARNING that asking us to connect `ubuntu-frame:login-session-control`, so we do that now:
 
@@ -68,6 +70,37 @@ This should start an Ubuntu Frame window and run Kodi in it. Having checked this
 At this point it is possible to log out and select “Frame-it” as the session when logging in.
 
 But we set out to create a new “kodi” user that doesn’t need a password.
+
+### Adding an OSK
+
+Ubuntu Frame supports an "on screen keyboard" and this can be used with frame-it:
+
+    $ sudo snap set frame-it osk=enable
+
+Next we check the setup:
+
+    $ frame-it.check
+    Checking: Ubuntu Frame installation (needed for all commands)
+    . OK . : Ubuntu Frame is installed
+    Checking: Ubuntu Frame has login-session-control (needed to run a login shell)
+    WARNING: ubuntu-frame:login-session-control NOT connected. Please run the following:
+    sudo snap connect ubuntu-frame:login-session-control
+    Checking: shell-app option (needed for frame-it.shell and to run a login shell)
+    WARNING: shell-app not set. Please run the following (with the app you choose):
+    snap set frame-it shell-app=...
+    Checking: osk option
+    WARNING: "osk" is "enabled", but ubuntu-frame-osk not installed. Please run the following:
+    sudo snap install ubuntu-frame-osk
+    sudo snap connect ubuntu-frame-osk:wayland
+
+From this we see a WARNING that asking us to install `ubuntu-frame-osk`, so we do that now:
+
+    $ sudo snap install ubuntu-frame-osk
+    $ sudo snap connect ubuntu-frame-osk:wayland
+
+Now when we use frame-it it will run the OSK as well as Frame and the chosen application:
+
+    $ frame-it gedit
 
 ### Creating a "kodi" user
 
